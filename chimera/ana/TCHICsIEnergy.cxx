@@ -68,11 +68,15 @@ int TCHICsIGSIEnergy::Init()
                 {
                     fa[numtel] = a;
                     fb[numtel] = b;
-                }
+		    cout << "TCHICsIGSIEnergy:: " << numtel << " " << fa[numtel] << " " << fb[numtel] << endl;
+                 }
                 break;
         }
     }
     cout << "TCHICsIGSIEnergy>> Read " << row << " lines from calibration file " << ffilenerg << endl;
+    cout << "TCHICsIGSIEnergy>> press enter to continue" << endl;
+    getchar();
+    
     freg.close();
     fisdefined = true;
     // getchar();
@@ -84,62 +88,27 @@ int TCHICsIGSIEnergy::Init()
     pippo >> ZZZ >> AAA;
     cout << "reading energy loss table for Z=" << ZZZ << " A=" << AAA << endl;
 
-<<<<<<< HEAD
-    for (int iii = 0; iii < 31; iii++)
-    {
-        pippo >> DE11[iii] >> E11[iii];
-    }
-
-=======
     for (int iii = 0; iii < 70; iii++)
     {
         pippo >> DE11[iii] >> E11[iii];
         cout << iii << " " << DE11[iii] << " " << E11[iii] << endl;
     }
     //  getchar();
-  
->>>>>>> 9e0f3f8 (new classes for chimera ID and nergy calibration)
+
     pippo >> ZZZ >> AAA;
     cout << "reading energy loss table for Z=" << ZZZ << " A=" << AAA << endl;
     for (int iii = 0; iii < 45; iii++)
     {
         pippo >> DE12[iii] >> E12[iii];
-<<<<<<< HEAD
-    }
-=======
         cout << iii << " " << DE12[iii] << " " << E12[iii] << endl;
     }
     //  getchar();
->>>>>>> 9e0f3f8 (new classes for chimera ID and nergy calibration)
 
     pippo >> ZZZ >> AAA;
     cout << "reading energy loss table for Z=" << ZZZ << " A=" << AAA << endl;
     for (int iii = 0; iii < 41; iii++)
     {
         pippo >> DE13[iii] >> E13[iii];
-<<<<<<< HEAD
-    }
-
-    pippo >> ZZZ >> AAA;
-    cout << "reading energy loss table for Z=" << ZZZ << " A=" << AAA << endl;
-    for (int iii = 0; iii < 45; iii++)
-    {
-        pippo >> DE24[iii] >> E24[iii];
-    }
-    pippo >> ZZZ >> AAA;
-    cout << "reading energy loss table for Z=" << ZZZ << " A=" << AAA << endl;
-    for (int iii = 0; iii < 41; iii++)
-    {
-        pippo >> DE37[iii] >> E37[iii];
-    }
-
-    pippo >> ZZZ >> AAA;
-    cout << "reading energy loss table for Z=" << ZZZ << " A=" << AAA << endl;
-    for (int iii = 0; iii < 37; iii++)
-    {
-        pippo >> DE49[iii] >> E49[iii];
-    }
-=======
         cout << iii << " " << DE13[iii] << " " << E13[iii] << endl;
     }
     //  getchar();
@@ -170,21 +139,16 @@ int TCHICsIGSIEnergy::Init()
         cout << iii << " " << DE49[iii] << " " << E49[iii] << endl;
     }
     //  getchar();
->>>>>>> 9e0f3f8 (new classes for chimera ID and nergy calibration)
 
     pippo >> ZZZ >> AAA;
     cout << "reading energy loss table for Z=" << ZZZ << " A=" << AAA << endl;
     for (int iii = 0; iii < 12; iii++)
     {
         pippo >> DE511[iii] >> E511[iii];
-<<<<<<< HEAD
-    }
-=======
         cout << iii << " " << DE511[iii] << " " << E511[iii] << endl;
     }
     //  getchar();
 
->>>>>>> 9e0f3f8 (new classes for chimera ID and nergy calibration)
     pippo.close();
 
     /*
@@ -197,6 +161,8 @@ int TCHICsIGSIEnergy::Init()
     */
 
     // paolo 21/11/2011
+    
+//    optZ2=false;
     return 0;
 }
 
@@ -239,7 +205,7 @@ void TCHICsIGSIEnergy::EvalEnergy(int numtel, int fast, int slow, TCHIResult* id
         }
     }
 
-    // if(numtel == 371) cout <<"TCHICsIGSIEnergy:: " <<  fa[371] << " " << fb[371] << " " << fast << " " << de << endl;
+//    if(numtel == 95) cout <<"bf TCHICsIGSIEnergy:: " <<  de << " " << fast << " " << fa[numtel] << " " << fb[numtel] << endl;
     // paolo 21/11/2011
     int iii;
     int myflag = 0;
@@ -251,36 +217,6 @@ void TCHICsIGSIEnergy::EvalEnergy(int numtel, int fast, int slow, TCHIResult* id
             fA = 0;
             idr->SetZ(1);
             fZ = 1;
-<<<<<<< HEAD
-            idr->Setcod(kICODE4);
-        }
-        if (fZ == 1)
-        {
-            if (fA == 1)
-            {
-                if (de > 222.1 * tollup)
-                {
-                    idr->Setcod(kICODE3);
-                    idr->SetA(2);
-                    fA = 2;
-                }
-                if (de > 292.8 * tollup)
-                {
-                    idr->Setcod(kICODE3);
-                    idr->SetA(3);
-                    fA = 3;
-                }
-                if (de > 347.6 * tollup)
-                {
-                    idr->Setcod(kICODE4);
-                    idr->SetA(4);
-                    fA = 4;
-                    idr->SetZ(2);
-                    fZ = 2;
-                }
-                if (fA == 1 && (fPID < 0.5 || fPID > 1.5) && (idr->Getcod() < 3))
-                    idr->Setcod(kICODE5); // 2011 code...needed?
-=======
             idr->Setcod(kICODE5); // ok Z2A2->Z1A0
         }
 
@@ -308,29 +244,12 @@ void TCHICsIGSIEnergy::EvalEnergy(int numtel, int fast, int slow, TCHIResult* id
                     idr->SetZ(2);
                     fZ = 2;
                 }
->>>>>>> 9e0f3f8 (new classes for chimera ID and nergy calibration)
-            }                             // if(fA==1){
+            } // if(fA==1){
 
             if (fA == 2)
             {
                 if (de > 292.8 * tollup)
                 {
-<<<<<<< HEAD
-                    idr->Setcod(kICODE3);
-                    idr->SetA(3);
-                    fA = 3;
-                }
-                if (de > 347.6 * tollup)
-                {
-                    idr->Setcod(kICODE4);
-                    idr->SetA(4);
-                    fA = 4;
-                    idr->SetZ(2);
-                    fZ = 2;
-                }
-                if (fA == 2 && (fPID < 1.5 || fPID > 2.5) && (idr->Getcod() < 3))
-                    idr->Setcod(kICODE5); // 2011 code...needed?
-=======
                     idr->Setcod(kICODE4); // ok Z1A2->Z1A3
                     idr->SetA(3);
                     fA = 3;
@@ -342,28 +261,13 @@ void TCHICsIGSIEnergy::EvalEnergy(int numtel, int fast, int slow, TCHIResult* id
                     fA = 4;
                     idr->SetZ(2);
                     fZ = 2;
-                }  
->>>>>>> 9e0f3f8 (new classes for chimera ID and nergy calibration)
-            }                             // if(fA==2)
+                }
+            } // if(fA==2)
 
             if (fA == 3)
             {
                 if (de > 347.6 * tollup)
                 {
-<<<<<<< HEAD
-                    idr->Setcod(kICODE4);
-                    idr->SetA(4);
-                    fA = 4;
-                    idr->SetZ(2);
-                    fZ = 2;
-                }
-                if (fA == 3 && (fPID < 2.5 || fPID > 3.5) && (idr->Getcod() < 3))
-                    idr->Setcod(kICODE5); // 2011 code...needed?
-                if (fA == 3 && (de > 292.8 * tollup) && (fPID != 3) && (idr->Getcod() < 3))
-                    idr->Setcod(kICODE4); // 2011 code...needed?
-                if (fA == 3 && (de > 292.8 * tollup) && (fPID == 3) && (idr->Getcod() < 3))
-                    idr->Setcod(kICODE2); // 2011 code...needed?
-=======
                     idr->Setcod(kICODE5); // ok Z1A3->Z2A4
                     idr->SetA(4);
                     fA = 4;
@@ -373,20 +277,14 @@ void TCHICsIGSIEnergy::EvalEnergy(int numtel, int fast, int slow, TCHIResult* id
                 // if(fA==3 && (de>292.8*tollup) && (fPID!=3) && (idr->Getcod()<3))idr->Setcod(kICODE4);//2011
                 // code...needed??????????????????????????????????? if(fA==3 && (de>292.8*tollup) && (fPID==3) &&
                 // (idr->Getcod()<3))idr->Setcod(kICODE2);//2011 code...needed???????????????????????????????????
->>>>>>> 9e0f3f8 (new classes for chimera ID and nergy calibration)
-            }                             // if(fA==3)
+            } // if(fA==3)
 
             if (fA == 0)
             {
                 if (de < 222.1 && de > 0)
                 {
-<<<<<<< HEAD
-                    for (iii = 0; iii < 31; iii++)
-                    {
-=======
                     for (iii = 0; iii < 70; iii++)
                     {
->>>>>>> 9e0f3f8 (new classes for chimera ID and nergy calibration)
                         if (de >= DE11[iii] && de < DE11[iii + 1])
                         {
                             erec =
@@ -395,29 +293,17 @@ void TCHICsIGSIEnergy::EvalEnergy(int numtel, int fast, int slow, TCHIResult* id
                         if (de < DE11[0])
                         {
                             erec = -100;
-<<<<<<< HEAD
-                            idr->Setcod(kICODE5);
-                        }
-                        if (de > DE11[30])
-                            erec = de + 1;
-=======
                             idr->Setcod(kICODE8); // ok....tbc
                         }
                         if (de > DE11[69])
                             erec = de + 1;
->>>>>>> 9e0f3f8 (new classes for chimera ID and nergy calibration)
                     }
                     idr->SetA(1);
                     fA = 1;
                     stopped = 0;
                     idr->SetUnStopped();
-<<<<<<< HEAD
-                    if (idr->Getcod() <= 3)
-                        idr->Setcod(kICODE3);
-=======
                     if (idr->Getcod() < 3)
-                        idr->Setcod(kICODE3);     // ok...tbc
->>>>>>> 9e0f3f8 (new classes for chimera ID and nergy calibration)
+                        idr->Setcod(kICODE3); // ok...tbc
                 }
 
                 if (de > 222.1 && de < 292.8)
@@ -433,11 +319,7 @@ void TCHICsIGSIEnergy::EvalEnergy(int numtel, int fast, int slow, TCHIResult* id
                         if (de < DE12[0])
                         {
                             erec = -100;
-<<<<<<< HEAD
-                            idr->Setcod(kICODE5);
-=======
                             idr->Setcod(kICODE8); // ok....tbc
->>>>>>> 9e0f3f8 (new classes for chimera ID and nergy calibration)
                         }
                         if (de > DE12[44])
                             erec = de + 1;
@@ -446,18 +328,14 @@ void TCHICsIGSIEnergy::EvalEnergy(int numtel, int fast, int slow, TCHIResult* id
                     fA = 2;
                     stopped = 0;
                     idr->SetUnStopped();
-<<<<<<< HEAD
-                    if (idr->Getcod() <= 3)
-                        idr->Setcod(kICODE3);
-=======
                     if (idr->Getcod() < 3)
-                        idr->Setcod(kICODE3);     // ok....tbc
->>>>>>> 9e0f3f8 (new classes for chimera ID and nergy calibration)
+                        idr->Setcod(kICODE3); // ok....tbc
                 }
 
                 if (de > 292.8 && de < 347.6 * tollup)
                 {
-                    for (iii = 0; iii < 41; iii++)
+                 if(!optZ2){
+		    for (iii = 0; iii < 41; iii++)
                     {
                         if (de >= DE13[iii] && de < DE13[iii + 1])
                         {
@@ -468,11 +346,7 @@ void TCHICsIGSIEnergy::EvalEnergy(int numtel, int fast, int slow, TCHIResult* id
                         if (de < DE13[0])
                         {
                             erec = -100;
-<<<<<<< HEAD
-                            idr->Setcod(kICODE5);
-=======
                             idr->Setcod(kICODE8); // ok....tbc
->>>>>>> 9e0f3f8 (new classes for chimera ID and nergy calibration)
                         }
                         if (de > DE13[40])
                             erec = de + 1;
@@ -481,23 +355,19 @@ void TCHICsIGSIEnergy::EvalEnergy(int numtel, int fast, int slow, TCHIResult* id
                     fA = 3;
                     stopped = 0;
                     idr->SetUnStopped();
-<<<<<<< HEAD
-                    if (idr->Getcod() <= 3)
-                        idr->Setcod(kICODE3);
-                }
-
-                if (de > 347.6 * tollup)
-                {
-                    idr->Setcod(kICODE4);
-=======
                     if (idr->Getcod() < 3)
                         idr->Setcod(kICODE3); // ok....tbc
-                }
+                 }else{
+                    idr->SetA(2);
+		    idr->SetZ(2);
+		    fA = 2;
+		    fZ = 2;
+		 }
+		}
 
                 if (de > 347.6 * tollup)
                 {
                     idr->Setcod(kICODE5); // ok Z1A0->Z2A2
->>>>>>> 9e0f3f8 (new classes for chimera ID and nergy calibration)
                     idr->SetA(2);
                     fA = 2;
                     idr->SetZ(2);
@@ -513,65 +383,31 @@ void TCHICsIGSIEnergy::EvalEnergy(int numtel, int fast, int slow, TCHIResult* id
             {
                 if (de > 792.4 * tollup)
                 {
-<<<<<<< HEAD
-                    idr->Setcod(kICODE3);
-                    idr->SetA(4);
-                    fA = 4;
-                }
-                /*2011 code...needed?
-                   if(cut3Hebis->IsInside(fPID,de)){
-                //    idr->Setcod(kICODE4);
-                    idr->SetA(2);fA=2;
-                    myflag=1;
-                   }
-                */
-                if (fA == 3 && (fPID < 2.5 || fPID > 3.5) && (idr->Getcod() < 3))
-                    idr->Setcod(kICODE5); // 2011 code...needed?
-=======
                     idr->Setcod(kICODE4); // ok Z2A3->Z2A4
                     idr->SetA(4);
                     fA = 4;
                 }
->>>>>>> 9e0f3f8 (new classes for chimera ID and nergy calibration)
-            }                             // if(fA==3)
+            } // if(fA==3)
 
             if (fA == 4)
             {
                 if (de > 888.1 * tollup)
                 {
-<<<<<<< HEAD
-                    idr->Setcod(kICODE4);
-                    idr->SetA(7);
-                    fA = 7;
-                    idr->SetZ(3);
-                    fA = 3;
-                }
-                //   if(cut4He->IsInside(fPID,de))idr->Setcod(kICODE5);2011 code...needed?
-                if (fA == 4 && (fPID < 3.5 || fPID > 4.5) && (idr->Getcod() < 3))
-                    idr->Setcod(kICODE5); // 2011 code...needed?
-=======
                     idr->Setcod(kICODE5); // ok Z2A4->Z3A7
                     idr->SetA(7);
                     fA = 7;
                     idr->SetZ(3);
                     fA = 3;
                 }
->>>>>>> 9e0f3f8 (new classes for chimera ID and nergy calibration)
-            }                             // if(fA==4)
+            } // if(fA==4)
 
             if (fA == 2)
             {
                 if (de > 888.1 * tollup && myflag == 0)
                 {
-<<<<<<< HEAD
-                    idr->Setcod(kICODE4);
-                    idr->SetA(3);
-                    fA = 3;
-=======
                     idr->Setcod(kICODE5); // ok Z2A2->Z3A5
                     idr->SetA(5);
                     fA = 5;
->>>>>>> 9e0f3f8 (new classes for chimera ID and nergy calibration)
                     idr->SetZ(3);
                     fZ = 3;
                     stopped = 0;
@@ -579,13 +415,8 @@ void TCHICsIGSIEnergy::EvalEnergy(int numtel, int fast, int slow, TCHIResult* id
                 }
                 if (de < 888.1 * tollup)
                 {
-<<<<<<< HEAD
-                    for (iii = 0; iii < 45; iii++)
-                    {
-=======
                     for (iii = 0; iii < 64; iii++)
                     {
->>>>>>> 9e0f3f8 (new classes for chimera ID and nergy calibration)
                         if (de >= DE24[iii] && de < DE24[iii + 1])
                         {
                             ;
@@ -595,54 +426,15 @@ void TCHICsIGSIEnergy::EvalEnergy(int numtel, int fast, int slow, TCHIResult* id
                         if (de < DE24[0])
                         {
                             erec = -100;
-<<<<<<< HEAD
-                            idr->Setcod(kICODE5);
-                        }
-                        if (de > DE24[44])
-                            erec = de + 1;
-=======
                             idr->Setcod(kICODE8); // ok....tbc
                         }
                         if (de > DE24[63])
                             erec = de + 1;
->>>>>>> 9e0f3f8 (new classes for chimera ID and nergy calibration)
                     }
                     idr->SetA(4);
                     fA = 4;
                     stopped = 0;
                     idr->SetUnStopped();
-<<<<<<< HEAD
-                    if (idr->Getcod() != 5)
-                        idr->Setcod(kICODE3);
-                    if (myflag == 1)
-                        idr->Setcod(kICODE5);
-                }
-            } // if(fA==2)
-        }
-
-        if (fZ == 3)
-        {
-            if (fA == 7)
-            {
-                if (de > 1808.1 * tollup)
-                {
-                    idr->Setcod(kICODE4);
-                    idr->SetZ(4);
-                    fA = 4;
-                    idr->SetA(9);
-                    fA = 9;
-                }
-                //   if(cut7Li->IsInside(fPID,de))idr->Setcod(kICODE5);2011 code...needed?
-                if (fA == 7 && (fPID < 5.5 || fPID > 7.5) && (idr->Getcod() < 3))
-                    idr->Setcod(kICODE5); // 2011 code...needed?
-            }                             // if(fA==7){
-
-            if (fA == 5)
-            {
-                if (de > 1808.1 * tollup)
-                {
-                    idr->Setcod(kICODE4);
-=======
                     if (idr->Getcod() < 3)
                         idr->Setcod(kICODE3); // ok...tbc
                     //     if(myflag==1)idr->Setcod(kICODE5);
@@ -711,7 +503,6 @@ void TCHICsIGSIEnergy::EvalEnergy(int numtel, int fast, int slow, TCHIResult* id
                 if (de > 1801.49 * tollup)
                 {
                     idr->Setcod(kICODE5); // Z3A5->Z4A6
->>>>>>> 9e0f3f8 (new classes for chimera ID and nergy calibration)
                     idr->SetA(6);
                     fA = 6;
                     idr->SetZ(4);
@@ -719,13 +510,8 @@ void TCHICsIGSIEnergy::EvalEnergy(int numtel, int fast, int slow, TCHIResult* id
                 }
                 if (de < 1808.1 * tollup)
                 {
-<<<<<<< HEAD
-                    for (iii = 0; iii < 41; iii++)
-                    {
-=======
                     for (iii = 0; iii < 69; iii++)
                     {
->>>>>>> 9e0f3f8 (new classes for chimera ID and nergy calibration)
                         if (de >= DE37[iii] && de < DE37[iii + 1])
                         {
                             ;
@@ -735,65 +521,23 @@ void TCHICsIGSIEnergy::EvalEnergy(int numtel, int fast, int slow, TCHIResult* id
                         if (de < DE37[0])
                         {
                             erec = -100;
-<<<<<<< HEAD
-                            idr->Setcod(kICODE5);
-                        }
-                        if (de > DE37[40])
-                            erec = de + 1;
-=======
                             idr->Setcod(kICODE8);
                         }
                         if (de > DE37[68])
                             erec = de + 1;
->>>>>>> 9e0f3f8 (new classes for chimera ID and nergy calibration)
                     }
                     idr->SetA(7);
                     fA = 7;
                     stopped = 0;
                     idr->SetUnStopped();
-<<<<<<< HEAD
-                    if (idr->Getcod() != 5)
-                        idr->Setcod(kICODE3);
-=======
                     if (idr->Getcod() < 3)
                         idr->Setcod(kICODE3);
->>>>>>> 9e0f3f8 (new classes for chimera ID and nergy calibration)
                 }
             } // if(fA==5)
         }     // if(fZ==3)
 
         if (fZ == 4)
         {
-<<<<<<< HEAD
-            if (fA == 9)
-            {
-                if (de > 2836.8 * tollup)
-                {
-                    idr->Setcod(kICODE4);
-                    idr->SetA(11);
-                    fA = 11;
-                    idr->SetZ(5);
-                    fZ = 5;
-                }
-                if (fA == 9 && (fPID < 6.5 || fPID > 10.5) && (idr->Getcod() < 3))
-                    idr->Setcod(kICODE5); // 2011 code...needed?
-            }                             // if(fA==9)
-
-            if (fA == 6)
-            {
-                if (de > 2863.9 * tollup)
-                {
-                    idr->Setcod(kICODE4);
-                    idr->SetA(9);
-                    fA = 9;
-                    idr->SetZ(5);
-                    fZ = 5;
-                }
-                if (de < 2863.9 * tollup)
-                {
-                    for (iii = 0; iii < 37; iii++)
-                    {
-=======
             if (fA == 7)
             {
                 if (de > 2573.71 * tollup && de < 2827.02 * tollup)
@@ -837,7 +581,6 @@ void TCHICsIGSIEnergy::EvalEnergy(int numtel, int fast, int slow, TCHIResult* id
                 {
                     for (iii = 0; iii < 57; iii++)
                     {
->>>>>>> 9e0f3f8 (new classes for chimera ID and nergy calibration)
                         if (de >= DE49[iii] && de < DE49[iii + 1])
                         {
                             ;
@@ -847,41 +590,23 @@ void TCHICsIGSIEnergy::EvalEnergy(int numtel, int fast, int slow, TCHIResult* id
                         if (de < DE49[0])
                         {
                             erec = -100;
-<<<<<<< HEAD
-                            idr->Setcod(kICODE5);
-                        }
-                        if (de > DE49[36])
-                            erec = de + 1;
-=======
                             idr->Setcod(kICODE8);
                         }
                         if (de > DE49[56])
                             erec = de + 1;
->>>>>>> 9e0f3f8 (new classes for chimera ID and nergy calibration)
                     }
                     idr->SetA(9);
                     fA = 9;
                     stopped = 0;
                     idr->SetUnStopped();
-<<<<<<< HEAD
-                    if (idr->Getcod() != 5)
-                        idr->Setcod(kICODE3);
-=======
                     if (idr->Getcod() < 3)
                         idr->Setcod(kICODE3);
->>>>>>> 9e0f3f8 (new classes for chimera ID and nergy calibration)
                 }
             } // if(fA==6)
-        }     // if(fZ==4)  
- 
- 
-<<<<<<< HEAD
-        if (fZ == 5 && fA == 9)
-        {
-=======
+        }     // if(fZ==4)
+
         if (fZ == 5 && fA == 7)
         {
->>>>>>> 9e0f3f8 (new classes for chimera ID and nergy calibration)
             for (iii = 0; iii < 12; iii++)
             {
                 if (de >= DE511[iii] && de < DE511[iii + 1])
@@ -892,11 +617,7 @@ void TCHICsIGSIEnergy::EvalEnergy(int numtel, int fast, int slow, TCHIResult* id
                 if (de < DE511[0])
                 {
                     erec = -100;
-<<<<<<< HEAD
-                    idr->Setcod(kICODE5);
-=======
                     idr->Setcod(kICODE8);
->>>>>>> 9e0f3f8 (new classes for chimera ID and nergy calibration)
                 }
                 if (de > DE511[11])
                     erec = de + 1;
@@ -905,21 +626,10 @@ void TCHICsIGSIEnergy::EvalEnergy(int numtel, int fast, int slow, TCHIResult* id
             fA = 11;
             stopped = 0;
             idr->SetUnStopped();
-<<<<<<< HEAD
-            if (idr->Getcod() != 5)
-                idr->Setcod(kICODE3);
-        } // if(fZ==5 && fA==9)
- 
- 
-   
-=======
             if (idr->Getcod() < 3)
                 idr->Setcod(kICODE3);
         } // if(fZ==5 && fA==7)
- 
- 
-  
->>>>>>> 9e0f3f8 (new classes for chimera ID and nergy calibration)
+
         if ((idr->Getcod() == 8) && (idr->GetZ() == -1) && (slow > 2500))
         {
             if (de < 888.1)
@@ -979,6 +689,8 @@ void TCHICsIGSIEnergy::EvalEnergy(int numtel, int fast, int slow, TCHIResult* id
         */
 
     } // if(de>0){
+    
+//    if(numtel == 95) cout <<"aft TCHICsIGSIEnergy:: " <<  de << " " << fast << " " << fa[numtel] << " " << fb[numtel] << endl;
 
     fDE = de;
     if (stopped)

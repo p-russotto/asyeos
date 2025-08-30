@@ -80,33 +80,31 @@ class TCHICsIGSIEnergy : public TCHICsIEnergy
     double fb[MAXTEL]; // light calibration b coeff.
                        // paolo 21/11/2011
     int ZZZ, AAA;
-<<<<<<< HEAD
-    double DE11[31], E11[31];
-    double DE12[45], E12[45];
-    double DE13[41], E13[41];
-    double DE24[45], E24[45];
-    double DE37[41], E37[41];
-    double DE49[37], E49[37];
-=======
     double DE11[70], E11[70];
     double DE12[45], E12[45];
     double DE13[41], E13[41];
     double DE24[64], E24[64];
     double DE37[69], E37[69];
     double DE49[57], E49[57];
->>>>>>> 9e0f3f8 (new classes for chimera ID and nergy calibration)
+
     double DE511[12], E511[12];
     TCutG* cut3He;
     TCutG* cut3Hebis;
     TCutG* cut7Li;
     TCutG* cut4He;
+    bool optZ2;
     // paolo 21/11/2011
   public:
+
+
     TCHICsIGSIEnergy(string filener, string filenerec, string calibdir); // Constructor
     ~TCHICsIGSIEnergy() {}                                               // Destructor
     int Init();                                                          // Initialization method
     void PrintData();                                                    // List Data file
     void EvalEnergy(int numtel, int fast, int slow, TCHIResult* idr);    // Calculate energy
+    void Set_optZ2(bool opt){optZ2=opt;}
+
+
     ClassDef(TCHICsIGSIEnergy, 1);
 };
 #endif

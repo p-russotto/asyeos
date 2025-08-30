@@ -4,7 +4,7 @@
 // -------------------------------------------------------------------------
 
 /******************************************************************************
- *   Copyright (C) 2022 GSI Helmholtzzentrum für Schwerionenforschung GmbH    *
+ *   Copyright (C) 2022 GSI Helmholtzzentrum fÃ¼r Schwerionenforschung GmbH    *
  *   Copyright (C) 2022-2025 Members of R3B Collaboration                     *
  *                                                                            *
  *             This software is distributed under the terms of the            *
@@ -40,14 +40,11 @@
 #include "TH1.h"
 #include "TH2F.h"
 #include "TMath.h"
-<<<<<<< HEAD
-=======
 #include "TRandom.h"
 #include "TRootCHIEvent.h"
 #include "TRootDefine.h"
->>>>>>> 9e0f3f8 (new classes for chimera ID and nergy calibration)
 
-    class TClonesArray;
+class TClonesArray;
 class R3BEventHeader;
 
 /**
@@ -113,11 +110,17 @@ class R3BAsyChimeraId : public FairTask
     inline void SetGridFileName(string FileName) { GridFileName = FileName; }
     inline void SetECalibFileName(string FileName) { ECalibFileName = FileName; }
     inline void SetECalibTableFileName(string FileName) { ECalibTableFileName = FileName; }
+    void Set_optZ2(bool opt){opt_Z2=opt;}
+    //void Set_slow_corr(float slowcorr){slow_corr=slowcorr;}
+
+
 
   private:
     TClonesArray* fChimeraMatchedData; /**< Array with chimera matched items. */
     TClonesArray* fChimeraIdData;      /**< Array with chimera Id items. */
     bool fOnline = false;
+    bool opt_Z2;
+    //float slow_corr;
 
     // check for trigger should be done globablly (somewhere else)
     R3BEventHeader* header; /**< Event header.      */
@@ -128,22 +131,8 @@ class R3BAsyChimeraId : public FairTask
     TCHIResult* fCHIResult;
     TCHICsIGSIEnergy* fCHICsIEnergy;
     
-<<<<<<< HEAD
+    
 
-    const char* finFileName;
-
-    R3BAsyChimeraIdData* AddIdData(UInt_t numtel,
-                                   Float_t fast,
-                                   Float_t slow,
-                                   UInt_t time,
-                                   UInt_t Z,
-                                   UInt_t A,
-                                   UInt_t Stopped,
-                                   UInt_t Code,
-                                   UInt_t PID,
-                                   double DE,
-                                   double Energy);
-=======
     Float_t GetThetaRnd(int);
     Float_t GetPhiRnd(int);
     TRandom* rrn;
@@ -169,7 +158,6 @@ class R3BAsyChimeraId : public FairTask
                                    Float_t PID,
                                    double DE,
                                    double Energy);
->>>>>>> 9e0f3f8 (new classes for chimera ID and nergy calibration)
 
   public:
     ClassDef(R3BAsyChimeraId, 1)

@@ -1,10 +1,10 @@
 // -------------------------------------------------------------------------
-// -----            R3BAsyChimeraMatch header file             -----
+// -----            R3BAsyChimeraPhys header file             -----
 // -----    Created 15/10/24  by E. De Filippo and P. Russotto         -----
 // -------------------------------------------------------------------------
 
 /******************************************************************************
- *   Copyright (C) 2022 GSI Helmholtzzentrum fÃ¼r Schwerionenforschung GmbH    *
+ *   Copyright (C) 2022 GSI Helmholtzzentrum für Schwerionenforschung GmbH    *
  *   Copyright (C) 2022-2025 Members of R3B Collaboration                     *
  *                                                                            *
  *             This software is distributed under the terms of the            *
@@ -16,8 +16,8 @@
  * or submit itself to any jurisdiction.                                      *
  ******************************************************************************/
 
-#ifndef R3BAsyChimeraMatch_H
-#define R3BAsyChimeraMatch_H
+#ifndef R3BAsyChimeraPhys_H
+#define R3BAsyChimeraPhys_H
 
 #include <R3BShared.h>
 
@@ -26,17 +26,14 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
-#include <vector>
 
 #include "FairTask.h"
-#include "R3BAsyChimeraMatchedData.h"
-#include "R3BEventHeader.h"
+#include "R3BAsyChimeraIdData.h"
+#include "R3BAsyKrabMappedData.h"
 #include "TCanvas.h"
 #include "TH1.h"
 #include "TH2F.h"
 #include "TMath.h"
-
-#define ndim 400
 
 class TClonesArray;
 class R3BEventHeader;
@@ -44,20 +41,28 @@ class R3BEventHeader;
 /**
  * This taks reads mapped data and plots online histograms
  */
-class R3BAsyChimeraMatch : public FairTask
+class R3BAsyChimeraPhys : public FairTask
 {
   public:
     /**
      * Default constructor.
      * Creates an instance of the task with default parameters.
      */
-    R3BAsyChimeraMatch(const char* inFileName, const char* inFileName2);
+    R3BAsyChimeraPhys();
+
+    /**
+     * Standard constructor.
+     * Creates an instance of the task.
+     * @param name a name of the task.
+     * @param iVerbose a verbosity level.
+     */
+    R3BAsyChimeraPhys(const char* name, Int_t iVerbose = 1);
 
     /**
      * Destructor.
      * Frees the memory used by the object.
      */
-    virtual ~R3BAsyChimeraMatch();
+    virtual ~R3BAsyChimeraPhys();
 
     /**
      * Method for task initialization.
@@ -94,36 +99,50 @@ class R3BAsyChimeraMatch : public FairTask
 
     // Accessor to select online mode
     inline void SetOnline(bool option) { fOnline = option; }
-
-    inline void SetNTelMin(Int_t ntel) { NTelMin = ntel; }
-    inline void SetNTelMax(Int_t ntel) { NTelMax = ntel; }
-    void Set_slow_corr(float slowcorr){slow_corr=slowcorr;}
+    inline void SetRP_thr(Int_t thr) { RP_thr = thr; }
+    Int_t GetRP_thr() { return RP_thr; }
+    inline void SetEnergy(Int_t energy) { this_energy = energy; }
 
   private:
-    TClonesArray* fMappedItemsChimera; /**< Array with chimera mapped items. */
-    TClonesArray* fChimeraMatchedData;
+    TClonesArray* fChimeraIdData; /**< Array with chimera Id data */
+    TClonesArray* fMappedItemsKrab; /**< Array with krab mapped items. */
+    TClonesArray* fChiKrabPhysData;
     bool fOnline = false;
-    Int_t NTelMin = 0;
-    Int_t NTelMax = 0;
-    float slow_corr= 1;
+    Int_t RP_thr = 3;
+    int this_energy;
+    float ymid, EAMax, KRABww;
+    float KM_min, KM_max;
+    float dy;
 
     // check for trigger should be done globablly (somewhere else)
     R3BEventHeader* header; /**< Event header.      */
     Int_t fNEvents;         /**< Event counter.     */
-    Int_t fTrigger = -1;
-    Int_t fTpat = 2;
 
-    Float_t offset_fast[ndim], gain_fast[ndim];
-    Float_t offset_slow[ndim], gain_slow[ndim];
-    Float_t sat_slow[ndim];
+    // Canvas
+    TCanvas* c_CHIMERA_phys;
+    TH1I* fh1_CHIMERA_multi;
+    TH1F* fh1_CHIMERA_RP;
+    TH1F* fh1_CHIMERA_RP12;
+    TH2F* fh2_CHIMERA_crings;
 
-    const char* finFileName;
-    const char* finFileName2;
+    TCanvas* c_CHIMERA_ped;
+    TH1F* fh1_CHIMERA_pedfast;
+    TH1F* fh1_CHIMERA_pedslow;
 
-    R3BAsyChimeraMatchedData* AddMatchedData(UInt_t numtel, Float_t fast, Float_t slow, UInt_t timeCsI);
+    Float_t GetTheta(int);
+    Float_t GetPhi(int);
+    Float_t GetThetaRnd(int);
+    Float_t GetPhiRnd(int);
+
+    TRandom* rr;
+    TRandom* rrn;
+
+    R3BAsyChiKrabPhysData* AddPhysData(Int_t Multi_CHI, Int_t ZBound_CHI, Float_t ZRat_CHI, Float_t ERat_CHI, Float_t RP_CHI, 
+                                       Int_t Multi_KRAB, Int_t MultiR0_KRAB, Int_t MultiR14_KRAB, Float_t RP_KRAB, 
+                                       Float_t RP_CHIKRAB, Float_t dRP_CHIKRAB);
 
   public:
-    ClassDef(R3BAsyChimeraMatch, 1)
+    ClassDef(R3BAsyChimeraPhys, 1)
 };
 
 #endif
